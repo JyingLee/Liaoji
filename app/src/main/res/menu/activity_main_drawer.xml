@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_xiaohua"
+            android:icon="@mipmap/ic_launcher"
+            android:title="笑话大全" />
+        <!--<item-->
+            <!--android:id="@+id/nav_gallery"-->
+            <!--android:icon="@mipmap/ic_launcher"-->
+            <!--android:title="Gallery" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_slideshow"-->
+            <!--android:icon="@mipmap/ic_launcher"-->
+            <!--android:title="Slideshow" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_manage"-->
+            <!--android:icon="@mipmap/ic_launcher"-->
+            <!--android:title="Tools" />-->
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_setting"
+                android:icon="@mipmap/ic_launcher"
+                android:title="个人设置" />
+            <item
+                android:id="@+id/nav_fankui"
+                android:icon="@mipmap/ic_launcher"
+                android:title="个人反馈" />
+        </menu>
+    </item>
+
+</menu>
