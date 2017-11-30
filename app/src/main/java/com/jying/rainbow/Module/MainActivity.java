@@ -8,8 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.jying.rainbow.Fragment.FirstFragment;
 import com.jying.rainbow.Adapter.FragmentAdapter;
+import com.jying.rainbow.Fragment.FirstFragment;
 import com.jying.rainbow.Fragment.InterFragment;
 import com.jying.rainbow.Fragment.SecondFragment;
 import com.jying.rainbow.Module.Tuling.TulingActivity;

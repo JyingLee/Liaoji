@@ -13,6 +13,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.jying.rainbow.Adapter.XiaohuaAdapter;
 import com.jying.rainbow.Bean.XiaohuaBean;
@@ -35,10 +37,11 @@ public class XiaohuaActivity extends AppCompatActivity implements XiaohuaContrac
     @BindView(R.id.recyclewview_xiaohua)
     RecyclerView recyclerView;
     XiaohuaAdapter adapter;
-    List<XiaohuaBean>lists=new ArrayList<>();
+    List<XiaohuaBean> lists = new ArrayList<>();
     @BindView(R.id.xiaohua_refresh)
     SwipeRefreshLayout refresh;
-    private int page=1;
+    private int page = 1;
+    private boolean isRolling = false;
 
     Handler handler = new Handler() {
         @Override
@@ -48,9 +51,8 @@ public class XiaohuaActivity extends AppCompatActivity implements XiaohuaContrac
                 case 0:
                     adapter.notifyDataSetChanged();
                     refresh.setRefreshing(false);
-                    break;
-                case 1:
-
+                    isRolling = false;
+                    setRecyclewViewBug();
                     break;
             }
         }
@@ -69,7 +71,7 @@ public class XiaohuaActivity extends AppCompatActivity implements XiaohuaContrac
         mPresenter = new XiaohuaPresenter(this);
         initRecyclewView();
         initRefresh();
-        mPresenter.getData(handler,page,lists);
+        mPresenter.getData(handler, page, lists);
     }
 
     private void initRefresh() {
@@ -78,17 +80,19 @@ public class XiaohuaActivity extends AppCompatActivity implements XiaohuaContrac
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ToastUtils.showToast(context,"刷新");
+                isRolling = true;
+                setRecyclewViewBug();
+                ToastUtils.showToast(context, "刷新");
                 page++;
                 lists.clear();
-                mPresenter.getData(handler,page,lists);
+                mPresenter.getData(handler, page, lists);
             }
         });
     }
 
     private void initRecyclewView() {
-        adapter = new XiaohuaAdapter(handler,lists);
-        LinearLayoutManager layoutmanager=new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
+        adapter = new XiaohuaAdapter(handler, lists);
+        LinearLayoutManager layoutmanager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutmanager);
 //        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -102,11 +106,24 @@ public class XiaohuaActivity extends AppCompatActivity implements XiaohuaContrac
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setRecyclewViewBug() {
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (isRolling) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
     }
 }

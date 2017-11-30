@@ -86,6 +86,7 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
     TextView weather_neirong;
     String fankui;
     RelativeLayout shezhi_layout;
+    private boolean isRolling = false;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -110,7 +111,7 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
                     String weather_data = msg.getData().getString("weather_data");
                     String weather = msg.getData().getString("weather");
                     String weather_pic = msg.getData().getString("weather_pic");
-                    if (weather_pic != null && weather != null && weather_pic != null) {
+                    if (!weather_pic.equals("") && !weather.equals("") && !weather_pic.equals("")) {
                         Glide.with(con).load(weather_pic).into(weather_icon);
                         weather_neirong.setText(weather_data);
                         weather_desc.setText(weather);
@@ -135,10 +136,10 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
         initTuling();
         dealData();
         initRecyclewView();
-        ChatMessage init = new ChatMessage("只有帅的人才能向我提问,understand!?", ChatMessage.TULING);
+        ChatMessage init = new ChatMessage("你好啊,我是韩梅梅！！", ChatMessage.TULING);
         lists.add(init);
         chatAdapter.notifyItemInserted(lists.size() - 1);
-
+        initUserData();//初始化用户名和头像
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -148,6 +149,18 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) con);
 
+
+        shezhi_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(con, SettingActivity.class));
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+    }
+
+    void initUserData() {
         BmobQuery<MyUser> query = new BmobQuery<>();
         query.getObject(BmobUser.getCurrentUser(MyUser.class).getObjectId(), new QueryListener<MyUser>() {
             @Override
@@ -159,25 +172,19 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
                     } else {
                         username.setText(user.getUsername());
                     }
-                }else {
-                    ToastUtils.showToast(con,"没网了?!");
+                } else {
                 }
             }
         });
-        shezhi_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(con,SettingActivity.class));
-            }
-        });
     }
+
     private void setUpdate() {
         PgyUpdateManager.setIsForced(false);
         PgyUpdateManager.register(TulingActivity.this, "",
                 new UpdateManagerListener() {
                     @Override
                     public void onUpdateAvailable(final String result) {
-                        Toast.makeText(TulingActivity.this,"又更新啦!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TulingActivity.this, "又更新啦!", Toast.LENGTH_SHORT).show();
                         final AppBean appBean = getAppBeanFromString(result);
                         new AlertDialog.Builder(TulingActivity.this)
                                 .setTitle("更新")
@@ -199,10 +206,11 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
 
                     @Override
                     public void onNoUpdateAvailable() {
-                        Toast.makeText(TulingActivity.this,"已经是最新版本",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TulingActivity.this, "已经是最新版本", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
     private void init() {
         chatRecyclewView = (RecyclerView) findViewById(R.id.chatRecyclewView);
         send_bt = (Button) findViewById(R.id.send_bt);
@@ -214,7 +222,7 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
         username = (TextView) headerLayout.findViewById(R.id.username);
         weather_desc = (TextView) headerLayout.findViewById(R.id.weather_desc);
         weather_neirong = (TextView) headerLayout.findViewById(R.id.weather_neirong);
-        shezhi_layout= (RelativeLayout) headerLayout.findViewById(R.id.shezhi_layout);
+        shezhi_layout = (RelativeLayout) headerLayout.findViewById(R.id.shezhi_layout);
     }
 
     private void initTuling() {
@@ -277,6 +285,7 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
                 lists.add(chatMessage);
                 chatAdapter.notifyItemInserted(lists.size() - 1);
                 chatRecyclewView.scrollToPosition(lists.size() - 1);
+                chatAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -304,28 +313,35 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                long secondTime = System.currentTimeMillis();
-                if (secondTime - firstTime > 2000) {                                         //如果两次按键时间间隔大于2秒，则不退出
-                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                    firstTime = secondTime;//更新firstTime
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                    chatAdapter.notifyDataSetChanged();
                     return true;
-                } else {                                                    //两次按键小于2秒时，退出应用
-                    System.exit(0);
+                } else {
+                    long secondTime = System.currentTimeMillis();
+                    if (secondTime - firstTime > 2000) {                                         //如果两次按键时间间隔大于2秒，则不退出
+                        Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                        firstTime = secondTime;//更新firstTime
+                        return true;
+                    } else {                                                    //两次按键小于2秒时，退出应用
+                        System.exit(0);
+                    }
                 }
                 break;
         }
         return super.onKeyUp(keyCode, event);
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -374,5 +390,11 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
     @Override
     public void setPresenter(TulingContract.Presenter presenter) {
         this.mPresenter = presenter;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initUserData();
     }
 }

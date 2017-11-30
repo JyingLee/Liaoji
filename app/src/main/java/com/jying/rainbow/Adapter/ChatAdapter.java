@@ -48,22 +48,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        BmobQuery<MyUser>query=new BmobQuery<>();
-        query.getObject(BmobUser.getCurrentUser(MyUser.class).getObjectId(), new QueryListener<MyUser>() {
-            @Override
-            public void done(MyUser user, BmobException e) {
-                if (e==null){
-                    if (!user.getUserIcon().getUrl().equals("")){
-                        url=user.getUserIcon().getUrl();
-                    }
-                    if (!user.getNickName().equals("")){
-                        name=user.getNickName();
-                    }else {
-                        name=user.getUsername();
-                    }
-                }
-            }
-        });
         if (holder instanceof chat_vh) {
             chat_vh vh = (chat_vh) holder;
             if (lists.get(position).getType() == ChatMessage.TULING) {
@@ -72,14 +56,15 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 vh.tuling_url_layout.setVisibility(View.GONE);
                 vh.tuling_tv.setText(lists.get(position).getText());
             } else if (lists.get(position).getType() == ChatMessage.ME) {
+                queryUserData();//查询用户信息
                 vh.tuling_layout.setVisibility(View.GONE);
                 vh.me_layout.setVisibility(View.VISIBLE);
                 vh.tuling_url_layout.setVisibility(View.GONE);
                 vh.me_tv.setText(lists.get(position).getText());
-                if (!url.equals("")){
+                if (url != null && !url.equals("")) {
                     Glide.with(con).load(url).into(vh.me_image);
                 }
-                if (!name.equals("")){
+                if (name != null && !name.equals("")) {
                     vh.me_name_tv.setText(name);
                 }
             } else if (lists.get(position).getType() == ChatMessage.TULING_URL) {
@@ -87,10 +72,29 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 vh.me_layout.setVisibility(View.GONE);
                 vh.tuling_url_layout.setVisibility(View.VISIBLE);
                 vh.tuling_tv1.setText(lists.get(position).getText());
-                Log.e("test",lists.get(position).getUrl());
+                Log.e("test", lists.get(position).getUrl());
                 Glide.with(con).load(lists.get(position).getUrl()).error(R.mipmap.shithub).into(vh.tuling_url_image);
             }
         }
+    }
+
+    private void queryUserData() {
+        BmobQuery<MyUser> query = new BmobQuery<>();
+        query.getObject(BmobUser.getCurrentUser(MyUser.class).getObjectId(), new QueryListener<MyUser>() {
+            @Override
+            public void done(MyUser user, BmobException e) {
+                if (e == null) {
+                    if (!user.getUserIcon().getUrl().equals("")) {
+                        url = user.getUserIcon().getUrl();
+                    }
+                    if (!user.getNickName().equals("")) {
+                        name = user.getNickName();
+                    } else {
+                        name = user.getUsername();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -112,15 +116,15 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public chat_vh(View inflate) {
             super(inflate);
-            tuling_url_layout= (RelativeLayout) inflate.findViewById(R.id.tuling_url_layout);
+            tuling_url_layout = (RelativeLayout) inflate.findViewById(R.id.tuling_url_layout);
             tuling_tv = (TextView) inflate.findViewById(R.id.tuling_tv);
             me_tv = (TextView) inflate.findViewById(R.id.me_tv);
             tuling_layout = (RelativeLayout) inflate.findViewById(R.id.tuling_layout);
             me_layout = (RelativeLayout) inflate.findViewById(R.id.me_layout);
             tuling_tv1 = (TextView) inflate.findViewById(R.id.tuling_tv1);
-            tuling_url_image= (ImageView) inflate.findViewById(R.id.tuling_url_image);
-            me_image= (CircleImageView) inflate.findViewById(R.id.me_image);
-            me_name_tv= (TextView) inflate.findViewById(R.id.me_name_tv);
+            tuling_url_image = (ImageView) inflate.findViewById(R.id.tuling_url_image);
+            me_image = (CircleImageView) inflate.findViewById(R.id.me_image);
+            me_name_tv = (TextView) inflate.findViewById(R.id.me_name_tv);
         }
     }
 }

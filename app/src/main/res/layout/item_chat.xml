@@ -14,7 +14,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:src="@mipmap/shithub" />
+            android:src="@mipmap/tt" />
 
 
         <TextView
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/tuling_image"
-            android:text="小黑"
+            android:text="韩梅梅"
             android:textStyle="bold" />
 
         <TextView
@@ -81,7 +81,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:src="@mipmap/shithub" />
+            android:src="@mipmap/tt" />
 
 
         <TextView
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/tuling_image1"
-            android:text="小黑"
+            android:text="韩梅梅"
             android:textStyle="bold" />
 
         <TextView
