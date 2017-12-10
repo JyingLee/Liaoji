@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jying.rainbow">
 
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="14" />
+
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,6 +14,15 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- 监听网络的变化 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!-- sd卡存储-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--摄像头-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--通知震动-->
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".LiaoJiApp"
@@ -26,6 +39,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Module.Chat.ui.SplashActivity" />
         <activity
             android:name=".Module.Tuling.TulingActivity"
             android:theme="@style/TulingTheme">
@@ -51,14 +66,51 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Module.Setting.SettingActivity"
-            android:theme="@style/TulingTheme">
+            android:theme="@style/TulingTheme"></activity>
 
-        </activity>
+        <activity android:name=".Module.Chat.ui.LoginActivity" />
+        <activity
+            android:name=".Module.Chat.ui.MainActivity"
+            android:theme="@style/ChatTheme" />
+        <activity android:name=".Module.Chat.ui.RegisterActivity" />
+        <activity android:name=".Module.Chat.ui.SearchUserActivity" />
+        <activity
+            android:name=".Module.Chat.ui.UserInfoActivity"
+            android:theme="@style/ToolbarTheme" />
+        <activity android:name=".Module.Chat.ui.NewFriendActivity" />
+
+        <activity
+            android:name=".Module.Chat.ui.ChatActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ChatTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
 
         <meta-data
             android:name="PGYER_APPID"
-            android:value="6e8792de6d3cdbe7011b1fe613a3a349">
-        </meta-data>
+            android:value="6e8792de6d3cdbe7011b1fe613a3a349"></meta-data>
+        <meta-data
+            android:name="Bmob_APP_KEY"
+            android:value="cb75f78b2d85d84b0ab56bd392ed8b2f" />
+
+        <receiver android:name="cn.bmob.newim.core.ConnectChangeReceiver">
+            <intent-filter>
+                <action android:name="cn.bmob.action.RECONNECT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="cn.bmob.newim.core.service.BmobIMService"
+            android:process=":bmobcore" />
+        <service
+            android:name="cn.bmob.newim.core.service.NotifyService"
+            android:process=":bmobcore" />
+        <service android:name="cn.bmob.newim.core.service.ReConnectService" />
+        <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
+
     </application>
 
 </manifest>

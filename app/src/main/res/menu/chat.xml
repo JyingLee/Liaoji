@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/switch_chat"
+        android:title="好友通讯"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/exit"
         android:title="退出登录"
         app:showAsAction="never" />

@@ -36,6 +36,7 @@ import com.bumptech.glide.Glide;
 import com.jying.rainbow.Adapter.ChatAdapter;
 import com.jying.rainbow.Bean.ChatMessage;
 import com.jying.rainbow.Bean.MyUser;
+import com.jying.rainbow.Module.Chat.ui.SplashActivity;
 import com.jying.rainbow.Module.LoginActivity;
 import com.jying.rainbow.Module.Setting.SettingActivity;
 import com.jying.rainbow.Module.Xiaohua.XiaohuaActivity;
@@ -304,6 +305,9 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
             ed.clear();
             ed.commit();
             startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } else if (item.getItemId() == R.id.switch_chat) {
+            startActivity(new Intent(this, SplashActivity.class));
             finish();
         }
         return super.onOptionsItemSelected(item);
