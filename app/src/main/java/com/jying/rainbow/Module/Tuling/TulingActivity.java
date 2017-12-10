@@ -353,10 +353,11 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
 
         if (id == R.id.nav_xiaohua) {
             startActivity(new Intent(con, XiaohuaActivity.class));
+        } else if (id == R.id.nav_chat) {
+            startActivity(new Intent(this, SplashActivity.class));
+            finish();
         }
-//        else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
+// else if (id == R.id.nav_slideshow) {
 //
 //        } else if (id == R.id.nav_manage) {
 //
