@@ -194,15 +194,15 @@
         android:background="@drawable/base_horizontal_line"
         android:visibility="gone"></View>
 
-    <Button
-        android:id="@+id/switch_robot"
-        style="@style/style_button_logout"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/switch_robot" />
+    <!--<Button-->
+        <!--android:id="@+id/switch_robot"-->
+        <!--style="@style/style_button_logout"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:text="@string/switch_robot" />-->
 
     <Button
         android:id="@+id/btn_logout"

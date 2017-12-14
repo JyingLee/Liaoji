@@ -9,19 +9,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jying.rainbow.Module.Chat.base.ParentWithNaviFragment;
-import com.jying.rainbow.Module.Chat.bean.User;
 import com.jying.rainbow.Module.Chat.model.UserModel;
 import com.jying.rainbow.Module.Chat.ui.LoginActivity;
-import com.jying.rainbow.Module.Chat.ui.MainActivity;
-import com.jying.rainbow.Module.Chat.ui.UserInfoActivity;
-import com.jying.rainbow.Module.Tuling.TulingActivity;
+import com.jying.rainbow.Module.Setting.SettingActivity;
 import com.jying.rainbow.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bmob.newim.BmobIM;
-import cn.bmob.v3.BmobUser;
 
 /**
  * 设置
@@ -62,9 +58,10 @@ public class SetFragment extends ParentWithNaviFragment {
 
     @OnClick(R.id.layout_info)
     public void onInfoClick(View view) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("u", BmobUser.getCurrentUser(User.class));
-        startActivity(UserInfoActivity.class, bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("u", BmobUser.getCurrentUser(User.class));
+//        startActivity(UserInfoActivity.class, bundle);
+        startActivity(SettingActivity.class, null);
     }
 
     @OnClick(R.id.btn_logout)
@@ -76,9 +73,9 @@ public class SetFragment extends ParentWithNaviFragment {
         startActivity(LoginActivity.class, null);
     }
 
-    @OnClick(R.id.switch_robot)
-    public void onSwitchRobot(View view) {
-        startActivity(TulingActivity.class, null);
-        MainActivity.instance.finish();
-    }
+//    @OnClick(R.id.switch_robot)
+//    public void onSwitchRobot(View view) {
+//        startActivity(TulingActivity.class, null);
+//        MainActivity.instance.finish();
+//    }
 }

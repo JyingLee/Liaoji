@@ -72,7 +72,7 @@ public class UserInfoActivity extends ParentWithNaviActivity {
         //构造聊天方的用户信息:传入用户id、用户名和用户头像三个参数
         info = new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar());
         //加载头像
-        ImageLoaderFactory.getLoader().loadAvator(iv_avator, user.getAvatar(), R.mipmap.tt);
+        ImageLoaderFactory.getLoader().loadAvator(iv_avator, user.getAvatar(), R.mipmap.head);
         //显示名称
         tv_name.setText(user.getUsername());
     }

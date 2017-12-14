@@ -1,8 +1,6 @@
 package com.jying.rainbow.Module.Tuling;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -43,9 +41,6 @@ import com.jying.rainbow.Module.Xiaohua.XiaohuaActivity;
 import com.jying.rainbow.R;
 import com.jying.rainbow.Utils.Key;
 import com.jying.rainbow.Utils.ToastUtils;
-import com.pgyersdk.javabean.AppBean;
-import com.pgyersdk.update.PgyUpdateManager;
-import com.pgyersdk.update.UpdateManagerListener;
 import com.turing.androidsdk.HttpRequestListener;
 import com.turing.androidsdk.TuringManager;
 
@@ -130,7 +125,7 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
         ButterKnife.bind(TulingActivity.this);
         mPresenter = new TulingPresenter(this);
         init();
-        setUpdate();
+//        setUpdate();
         toolbar.setTitle("聊机");
         setSupportActionBar(toolbar);
         mPresenter.getWeatherData(handler);
@@ -179,38 +174,38 @@ public class TulingActivity extends AppCompatActivity implements NavigationView.
         });
     }
 
-    private void setUpdate() {
-        PgyUpdateManager.setIsForced(false);
-        PgyUpdateManager.register(TulingActivity.this, "",
-                new UpdateManagerListener() {
-                    @Override
-                    public void onUpdateAvailable(final String result) {
-                        Toast.makeText(TulingActivity.this, "又更新啦!", Toast.LENGTH_SHORT).show();
-                        final AppBean appBean = getAppBeanFromString(result);
-                        new AlertDialog.Builder(TulingActivity.this)
-                                .setTitle("更新")
-                                .setMessage("又是一个惊喜")
-                                .setNegativeButton(
-                                        "确定",
-                                        new DialogInterface.OnClickListener() {
-
-                                            @Override
-                                            public void onClick(
-                                                    DialogInterface dialog,
-                                                    int which) {
-                                                startDownloadTask(
-                                                        TulingActivity.this,
-                                                        appBean.getDownloadURL());
-                                            }
-                                        }).show();
-                    }
-
-                    @Override
-                    public void onNoUpdateAvailable() {
-                        Toast.makeText(TulingActivity.this, "已经是最新版本", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+//    private void setUpdate() {
+//        PgyUpdateManager.setIsForced(false);
+//        PgyUpdateManager.register(TulingActivity.this, "",
+//                new UpdateManagerListener() {
+//                    @Override
+//                    public void onUpdateAvailable(final String result) {
+//                        Toast.makeText(TulingActivity.this, "又更新啦!", Toast.LENGTH_SHORT).show();
+//                        final AppBean appBean = getAppBeanFromString(result);
+//                        new AlertDialog.Builder(TulingActivity.this)
+//                                .setTitle("更新")
+//                                .setMessage("又是一个惊喜")
+//                                .setNegativeButton(
+//                                        "确定",
+//                                        new DialogInterface.OnClickListener() {
+//
+//                                            @Override
+//                                            public void onClick(
+//                                                    DialogInterface dialog,
+//                                                    int which) {
+//                                                startDownloadTask(
+//                                                        TulingActivity.this,
+//                                                        appBean.getDownloadURL());
+//                                            }
+//                                        }).show();
+//                    }
+//
+//                    @Override
+//                    public void onNoUpdateAvailable() {
+//                        Toast.makeText(TulingActivity.this, "已经是最新版本", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
     private void init() {
         chatRecyclewView = (RecyclerView) findViewById(R.id.chatRecyclewView);

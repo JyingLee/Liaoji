@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/main_bottom"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -17,18 +16,17 @@
             android:layout_weight="1">
 
             <TextView
+                android:layout_centerInParent="true"
                 android:id="@+id/btn_conversation"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:drawableTop="@drawable/tab_message_btn"
                 android:gravity="center"
                 android:onClick="onTabSelect"
-                android:paddingBottom="2dip"
-                android:paddingTop="5dip"
                 android:scaleType="matrix"
                 android:text="@string/main_tab_recent"
                 android:textColor="@drawable/tab_textcolor"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <ImageView
                 android:id="@+id/iv_conversation_tips"
@@ -43,7 +41,7 @@
                 android:gravity="center"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="12sp"
-                android:visibility="visible"/>
+                android:visibility="visible" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -52,18 +50,17 @@
             android:layout_weight="1">
 
             <TextView
+                android:layout_centerInParent="true"
                 android:id="@+id/btn_contact"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:drawableTop="@drawable/tab_contact_btn"
                 android:gravity="center"
                 android:onClick="onTabSelect"
-                android:paddingBottom="2dip"
-                android:paddingTop="5dip"
                 android:scaleType="matrix"
                 android:text="@string/main_tab_contact"
                 android:textColor="@drawable/tab_textcolor"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <ImageView
                 android:id="@+id/iv_contact_tips"
@@ -78,24 +75,27 @@
                 android:gravity="center"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="12sp"
-                android:visibility="visible"/>
+                android:visibility="visible" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/btn_set"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1">
+        <TextView
+            android:layout_centerInParent="true"
+            android:id="@+id/btn_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:drawableTop="@drawable/tab_set_btn"
             android:gravity="center"
             android:onClick="onTabSelect"
-            android:paddingBottom="2dip"
-            android:paddingTop="5dip"
             android:scaleType="matrix"
             android:text="@string/mian_tab_set"
             android:textColor="@drawable/tab_textcolor"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -105,13 +105,12 @@
         android:layout_above="@id/main_bottom"
         android:background="@color/color_99"
         android:orientation="horizontal">
-
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/line"/>
+        android:layout_above="@id/line" />
 
 </RelativeLayout>

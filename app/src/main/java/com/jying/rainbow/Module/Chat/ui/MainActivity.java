@@ -1,5 +1,7 @@
 package com.jying.rainbow.Module.Chat.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -20,6 +22,9 @@ import com.jying.rainbow.Module.Chat.ui.fragment.SetFragment;
 import com.jying.rainbow.Module.Chat.util.IMMLeaks;
 import com.jying.rainbow.R;
 import com.orhanobut.logger.Logger;
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -64,6 +69,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main123);
+        setUpdate();
         instance = MainActivity.this;
         final User user = BmobUser.getCurrentUser(User.class);
         //TODO 连接：3.1、登录成功、注册成功或处于登录状态重新打开应用后执行连接IM服务器的操作
@@ -97,7 +103,38 @@ public class MainActivity extends BaseActivity {
         //解决leancanary提示InputMethodManager内存泄露的问题
         IMMLeaks.fixFocusedViewLeak(getApplication());
     }
+    private void setUpdate() {
+        PgyUpdateManager.setIsForced(false);
+        PgyUpdateManager.register(MainActivity.this, "",
+                new UpdateManagerListener() {
+                    @Override
+                    public void onUpdateAvailable(final String result) {
+                        Toast.makeText(MainActivity.this, "又更新啦!", Toast.LENGTH_SHORT).show();
+                        final AppBean appBean = getAppBeanFromString(result);
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("更新")
+                                .setMessage("又是一个惊喜")
+                                .setNegativeButton(
+                                        "确定",
+                                        new DialogInterface.OnClickListener() {
 
+                                            @Override
+                                            public void onClick(
+                                                    DialogInterface dialog,
+                                                    int which) {
+                                                startDownloadTask(
+                                                        MainActivity.this,
+                                                        appBean.getDownloadURL());
+                                            }
+                                        }).show();
+                    }
+
+                    @Override
+                    public void onNoUpdateAvailable() {
+                        Toast.makeText(MainActivity.this, "已经是最新版本", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     @Override
     protected void initView() {
