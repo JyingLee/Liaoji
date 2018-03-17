@@ -48,6 +48,7 @@
                 android:layout_weight="0.8" />
 
             <Button
+                android:textColor="#ffffff"
                 android:id="@+id/send_bt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
